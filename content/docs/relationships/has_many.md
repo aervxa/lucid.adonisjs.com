@@ -291,20 +291,20 @@ await user.related('posts').updateOrCreate(
 
 ### fetchOrCreateMany and updateOrCreateMany
 
-Batch variants that work the same way as their single-row counterparts. Both accept a predicate key (or array of keys) that identifies each row, plus an array of rows to sync.
+Batch variants that work the same way as their single-row counterparts. Both accept an array of rows to sync, plus a predicate key (or array of keys) that identifies each row.
 
 ```ts
 // Ensure a tag exists for every slug, inserting missing ones
-await project.related('tags').fetchOrCreateMany('slug', [
+await project.related('tags').fetchOrCreateMany([
   { slug: 'alpha', label: 'Alpha' },
   { slug: 'beta', label: 'Beta' },
-])
+], 'slug'), 
 
 // Update label on existing tags or insert new rows
-await project.related('tags').updateOrCreateMany('slug', [
+await project.related('tags').updateOrCreateMany([
   { slug: 'alpha', label: 'Alpha (updated)' },
   { slug: 'beta', label: 'Beta (updated)' },
-])
+], 'slug')
 ```
 
 For both batch variants, the predicate is combined with the relationship's foreign key automatically. You do not need to include the foreign key in the payload or the predicate; Lucid sets it from the parent.
